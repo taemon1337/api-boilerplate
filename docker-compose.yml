@@ -1,0 +1,25 @@
+version: '2'
+networks:
+  apinet:
+services:
+  api:
+    build: ./api
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    command: python -u run.py
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=apidb
+    ports:
+      - 8088:8080
+    networks:
+      - apinet
+  mongo:
+    image: mongo
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - apinet
+
